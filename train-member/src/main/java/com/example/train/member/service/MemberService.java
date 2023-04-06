@@ -1,6 +1,8 @@
 package com.example.train.member.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.example.train.common.exception.BusinessException;
+import com.example.train.common.exception.BusinessExceptionEnum;
 import com.example.train.member.domain.Member;
 import com.example.train.member.domain.MemberExample;
 import com.example.train.member.mapper.MemberMapper;
@@ -31,14 +33,14 @@ public class MemberService {
         // 查询, 最多有一条数据
         List<Member> list = memberMapper.selectByExample(example);
         if (CollUtil.isNotEmpty(list)) {
-            throw new RuntimeException("手机号已经注册");
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
 
         Member member = new Member();
         member.setId(System.currentTimeMillis());
         member.setMobile(mobile);
+        // 插入, 返回主键, 也就是id，其中主键是自动赋值到member对象中的
         memberMapper.insert(member);
         return member.getId();
     }
-
 }
