@@ -21,6 +21,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 日志切面，该类的名称LogAspect是可自定义的
+ */
 @Aspect
 @Component
 public class LogAspect {
@@ -31,7 +34,7 @@ public class LogAspect {
     private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
 
     /**
-     * 定义一个切点，切点为com.example包下的所有类的所有方法
+     * 定义一个切点，切点为【com.example包下的所有类的所有】方法
      */
     @Pointcut("execution(public * com.example..*Controller.*(..))")
     public void controllerPointcut() {
@@ -45,7 +48,7 @@ public class LogAspect {
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) {
 
-        // 增加日志流水号
+        // 增加日志流水号，LOG_ID是MDC中的key，在任何地方都可以获取到，在logback-spring.xml中配置了日志输出格式
         MDC.put("LOG_ID", System.currentTimeMillis() + RandomUtil.randomString(3));
 
         // 开始打印请求日志
@@ -64,7 +67,7 @@ public class LogAspect {
         Object[] args = joinPoint.getArgs();
         // LOG.info("请求参数: {}", JSONObject.toJSONString(args));
 
-        // 先排除特殊类型的参数，如文件类型
+        // / 先排除特殊类型的参数，如文件类型
         Object[] arguments = new Object[args.length];
         for (int i = 0; i < args.length; i++) {
             if (args[i] instanceof ServletRequest
