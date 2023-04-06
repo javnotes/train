@@ -23,7 +23,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public int register(String mobile) {
+    public long register(String mobile) {
         return memberService.register(mobile);
     }
 }

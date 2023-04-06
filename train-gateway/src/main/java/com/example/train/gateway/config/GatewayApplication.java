@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 /**
+ * 网关启动类
  * @author luf
  * @date 2023/03/16 20:18
  **/
